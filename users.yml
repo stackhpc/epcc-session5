@@ -1,0 +1,6 @@
+- hosts: localhost
+  become: yes
+  tasks:
+    - user:
+        name: "lab{{ item }}"
+      loop: "{{ range(0, 8) | list }}"
