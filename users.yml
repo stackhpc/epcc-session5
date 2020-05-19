@@ -1,6 +1,13 @@
 - hosts: localhost
   become: yes
+  vars_files: passwords.yml
   tasks:
     - user:
-        name: "lab{{ item }}"
-      loop: "{{ range(0, 8) | list }}"
+        name: "lab{{ idx }}"
+        password: "{{ item | password_hash('sha512', salt) }}"
+      loop: "{{ passwords }}"
+      loop_control:
+        index_var: idx
+# now
+# sudo vi /etc/ssh/sshd_config
+# sudo service sshd restart
